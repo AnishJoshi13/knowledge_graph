@@ -3,6 +3,6 @@
 .DS_Store
 .ipynb_checkpoints/
 docs/
-data_input/
-data_output/
+# data_input/
+# data_output/
 # old_notebooks
