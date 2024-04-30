@@ -1,0 +1,415 @@
+A study on Channel Popularity in Twitch
+
+Abstract. In the past few decades, there has been an increasing need for Internet users to host
+real time events online and to share their experiences with live, interactive audiences. Online
+streaming services like Twitch have attracted millions of users to stream and to spectate. There
+have been few studies about the prediction of streamers' popularity on Twitch. In this paper,
+we look at potential factors that can contribute to the popularity of streamers. Streamer data
+was collected through consistent tracking using Twitch's API during a 4 weeks period. Each
+user's streaming information such as the number of current viewers and followers, the genre of
+the stream etc., were collected. From the results, we found that the frequency of streaming
+sessions, the types of content and the length of the streams are major factors in determining
+how much viewers and subscribers streamers can gain during sessions.
+1. Introduction
+Social Media has made enormous impacts on how we share information and experiences with
+each other. There exists many social networking platforms that allow us to post images, videos,
+and other content. In the past few years, as the video games and e-sports industry grows rapidly,
+generating billions dollar of revenue from viewership [1], it has become clear that there is a need
+for players to share gaming experiences with one another. Since then, many gaming platforms
+have gained momentum in streamers and viewership. Among them Twitch has stood out as the
+best-known for streaming videos games and broadcasting major e-sports events.
+Twitch is the most popular live streaming platform worldwide, which draws more than
+100 millions of viewers every month. Even though Twitch attracted streamers from multiple
+categories, the main portion of its audience and streamers are competitive players and video
+game streamers. It stands apart from other mainstream platforms by providing streamers various
+opportunities to build a strongly connected online communities. Streamers on Twitch has shown
+to have enormous impact on the gaming industry [2]. Likewise, the donation from audience
+and partnership with Twitch can nancially support gamers to become full-time, professional
+video game streamers. The race to attract viewers has become increasingly competitive on
+the platform, especially for beginner streamers. Thus, nding key elements to a fast-growing,
+successful Twitch channel is crucial. Even though some research has attempted to analyze
+Twitch communities [3, 4], few has examined the quantitative factors that contribute to the
+popularity of Twitch channels and their corresponding streamers.
+In this paper, we collect data by crawling to explore the distribution of popularity among
+streams. We categorize them and conduct analysis in order to identify characteristics of
+successful streamers. We have concluded that a successful streaming strategy includes: (1)
+streams do not exceed 5 hours, (2) at least 5 streams per week and (3) combine non-gaming and
+arXiv:2111.05939v1 [cs.SI] 10 Nov 2021
+gaming content. Applying those characteristics, we also predict the growth rates of channels
+through machine learning classication model.
+The rest of this paper is organized as follows. In Section 2, we provide some background
+information. In Section 3, we survey related work. Section 4 describes the setup of our
+experiments, followed by results in analysis in Section 5. Finally, we give our conclusion in
+Section 6.
+2. Background
+2.1. Social Media
+Online social media has grown tremendously over the past few years. According to a study in
+2016 [5], 68% of the adults in the United States use the Internet and 79% of them engage in
+at least one form of social networking platforms. Facebook, a major online social networking
+platform, announced that they have more than one billion users around the world in 2012, while
+LinedkIn reported to have half a billion users in 2021 [6]. Social media platforms have created
+online communities that allow people to make and share content, to make connections and to
+communicate with each other. There has been research on online communities's e
+ects on our
+political [7], social [8, 9] and economical [10] believes.
+2.2. Streaming Services
+Streaming media is a booming industry. The main goal of these services is to deliver continuous
+and uninterrupted content to their users. Streaming platforms usually have two components: the
+component the broadcasts content and s comments/audience interaction Section. The streaming
+content on these platforms is diverse. Today major social media platforms such as Facebook,
+Instagram, YouTube, etc. have adopted streaming components. The most popular streaming
+services are for broadcasting movies and TV shows. This is a very competitive market with
+new platforms developed every year. For example, Net
+ix, HBO Max, Disney+, Amazon Prime
+Video, YouTube etc. Music streaming is also a large component of the industry, in which Spotify
+is the leading platform. Many people uses the streaming components in social networking
+platforms such as Facebook and Instagram for sharing experiences, interacting with followers,
+and sometime selling products and advertising.
+2.3. Twitch
+Established in 2011 and acquired by Amazon in 2014 for $974, Twitch focus primarily on video
+game and e-sports has become the leading streaming service provider[11][12]. In 2020, Twitch
+has attracted over 30 million average viewers daily, and over 4.5 billion hours of content were
+watched on Twitch during the third quarter. Di
+er from other platform, primary users on
+Twitch are young adolescent and adult men who is also the dominant gamer[13]. Therefore,
+Twitch provides an ideal environment for streamers reaching video game related audiences.
+The live streaming environment on Twitch facilitates direct engagement between the streamer
+and the viewers. Streamers and audiences can interact through a live chat box nearby the
+broadcast, while other social media such as Instagram or YouTube only provide a time-lagged
+comments sections for audiences to reach out creators. Twitch allows viewers to directly support
+their favorite streamers by buying and giving tokens. For avid viewers, they can choose to
+subscribe to their favorite streamers and receive corresponding perks provided by the channels.
+In order to attract more fans and supports, streamers need a more sophisticated communication
+techniques during live-streaming than simply posting pictures or videos on other social media.
+Due to the live-streaming environment, Twitch users also possess strong feeling of connectivity
+with other viewers [14]. Research has shown that people are able to develop meaningful,
+maintainable relationships through the Twitch platform [15]. Such connection may also be
+associated with a history of monetary donation to Twitch content creators [16].
+3. Related Works
+3.1. Studies on Streaming Services:
+Pires and Simon [17] presented a 3-months dataset on Youtube and Twitch. Their preliminary
+studies show that both platforms, especially Twitch, are able to generate rich services at any
+time. The popularity of the channel is more heterogenous than what have been observed in
+other social media platforms. Zhang et al. [18] conducted a survey on consumer behaviors on
+Spotify, a popular music streaming platform. They identied some key characteristics on user
+behaviors; this includes the users' favorite time of the day, the length of a successive user session
+and the tendencies to switch devices. Lee et al. [19] examined the impact of music streaming
+services on record sales in South Korea and showed that music streaming has a positive impact
+on the record sales. Surprisingly, the number of songs in an album and the number of singers
+in a group also have an impact on record sales as well.
+3.2. Studies on Streaming Communities:
+Gandhi et al. [20] discussed how streamers make connections with their audiences. Todd and
+Melacon [21] explored the impact of streamers' genders on the perception of viewers in live
+streaming sessions and found that the likelihood of a viewer interacting with streamers depend
+heavily on the sex of the streamers. Cai et al. [22] looked at micro-communities in streaming
+platforms and showed that there are correlations between the imposed regulations, the vibe of
+the channels, and harassment tendencies within the community. Cai and Wohn [23] examined
+the role of volunteer moderators in streaming communities.
+3.3. Studies on Twitch:
+Although we cannot nd research similar to ours, there have been other studies on Twitch.
+Seering et al. [24] looked at chatbots, programs designed to perform automated tasks during
+streams, and showed how they can help communities grow and evolve. Poyane [25] looked at
+chat logs from Twitch channels to create a topic model of viewers discussions.
+3.4. Twitch Users' Proles:
+Many researchers have analyzed the prole of Twitch users. Kim et al. [26] looked at users'
+di
+erences in sentiments through messages in chat; from that, they attempted to identify
+potential subscribers' characteristics. Lee [27] approached the same topic of whether a viewer will
+subscribe to a channel through machine learning, building models such as logistic regression,
+SVM, decision tree and random forest. Han and Sukhee [28] collected data to examine the
+distinctions between channels in South Korea. Zhao et al. [29] attempted to identify human
+factors such as openness, personal a
+ordance and gaming levels that can contribute to the
+popularities of channels.
+3.5. Predicting the Popularity of Users on YouTube, Twitter, and Spotify:
+While there are few research on the popularity of users on Twitch, there are studies on other
+streaming platforms such as YouTube, Twitter, and Spotify. Figueiredo, Benevenuto and
+Almeida [30] studied the growth patterns of video popularity on YouTube, Based on the data
+collected, they categorized the videos into three categories and observed the characteristics of
+videos that tend to motivate viewers into watching, thus contribute to channel growths. Pinto,
+Almeida, and Goncalves [31] present two simple models for predicting the popularity of Web
+content on YouTube based on historical information given by popularity measures. Ma, Yan and
+Chen [32] achieved fast prediction of long-term video popularity on YouTube. To understand the
+propagation of news Tweets, Wu and Shen [33] built a model that can predict the nal number
+of retweets for a news tweet based on information collected from super nodes on Twitter. Gao et
+al. [34] studied popularity prediction of posts in microblogs. Hu and Sci [35] looked at predicting
+peak time popularity of tweets based on Twitter hashtags.
+Studies have been done on the prediction of user popularities on Spotify, one of the most
+popular music streaming platforms. Araujo, Cristo and Giusti [36] approached this problem as
+a classication task and employed classiers built on past information from the platform's Top
+50 Global ranking as well as acoustic features from the songs. They found that RBF kernel
+gave the best results with an AUC higher than 80% when predicting the popularity of songs two
+months in advance. Wu and Sun [37] adopted Principle Components Analysis (PCA) and model
+blend-in, avoiding signicant error by high dimension, and gave a relatively precise prediction
+on the popularity of Spotify's top music.
+4. Experiment Setup
+Our data set consists of streaming information from 20,000 random active Twitch users, gathered
+using Twitch's API. Additional information on the games themselves was crawled from the web
+using a web crawler. The Twitch API does not provide achieved streaming information so
+all streams were real-time data obtained by consistently tracking activities from users over
+the course of two month. We start by generating a dataset of 10,000 active Twitch users by
+requesting 20,000 random streams currently on the platform and extracting the ids from the
+streamers.
+4.1. Gathering Streaming Information:
+Over the course of 4 weeks, we closely monitor the activities of the selected accounts. Every
+week we choose 4,000 users and monitor their activities; every 30 minutes we record their current
+status and their number of followers. If the account is streaming, we record the id of the stream
+as well as the current number of viewers, the game tag and the streaming language. After one
+week, we switch to another set of 4,000 users and repeat the process.
+4.2. Gathering Additional Information:
+Apart from the real-time information gathered from live streams on Twitch, we also looked
+for additional information related to the channel. Specically, we gathered information on any
+additional videos and clips uploaded to the channels after the streams have nished. That is,
+after streams have ended, the users can upload videos cut from parts of the streams to their
+channel. Using the streams' ids, we were able to track them. If there were special moments
+during the stream that have the potential to go viral after, streamers can choose to cut a short
+clip from the stream and upload it as highlight. Using the streams' ids and the videos' ids, we
+were able to track the highlights.
+We think that the popularity of games played during streams is also an important factor on
+the views. Using a web crawler, we obtained daily popularity of each game title using Twitch's
+self-reported statistics.
+Over the course of one month, we were able to get the complete data of 10,058 users, with
+more than 55000 streams and 50000 video clips. Our dataset consists of streams in 20 di
+erent
+languages, with both gaming and non-gaming contents.
+5. Analysis
+5.1. The Power Law Distributions
+First, we look at the popularity of streamers in the dataset by examining the distributions
+of their corresponding number of followers and viewers. Figure 1, 2, 3 shows the distribution
+of followers, the distribution of average viewers during streams, and the distribution of viewers
+tuning in at the start of the stream. All three follow the power law with exponents 1.25, 1.11 and
+2. This indicates an underlying relationship between the popularity of streamers and their ability
+to attract followers/viewers. That is, streamers' popularity will grow at a rate proportional to
+his/her current followers/viewers count.
+
+5.2. Distribution of Followers Gained and Bot Detection
+Next, we looked at the average distribution of followers gained during the week. Users' activities
+during the week are categorized as active and inactive. Figure 4, 5 shows the distribution of
+followers gained during streaming (active) period, and the distribution of followers gained during
+non-streaming (inactive) period. We observed that the graphs are spiky. They also suggest that
+at times streamers were getting more followers during inactive periods than during active periods.
+These results are curious to us. A closer look at the data reveals several suspicious surges and
+declines in the number of followers for many streamers. We suspect bot interference from these
+abnormal behaviors.
+To remedy the above problem, we employed a simple, naive algorithm to detect bot behaviors
+and delete users with such from our dataset. Our algorithm works by looking for sudden rise
+and drop in the number of followers between each 30 minutes timeframe. We calculated the
+absolute di
+erences in followers between one time frame and the next. If the di
+erence between
+timeframe i and i + 1 is at least 100 times larger than the di
+erence between timeframe i and
+i 􀀀 1 and timeframe i + 1 and i + 2 for user A, we mark such user as abnormal and delete user
+A from the dataset.
+After running the algorithm on our set, we detected 226 users who have shown abnormal
+growth or decline during the inspected week, among which 110 streamers have more than 10,000
+followers, and 67 of them have more than 100,000 followers. We provide a pseudocode of the
+algorithm below in Algorithm 1.
+
+Algorithm 1: Bot Bahavior Detection
+Input: streamers dataset
+Output: streamers dataset w/o bot behavior
+for userA in streamers dataset do
+for timeframe[i] in userA do
+if |timeframe[i + 1] - timeframe[i]| > 100*(|timeframe[i] - timeframe[i - 1]|
+and
+|timeframe[i+1] - timeframe[i]| > 100 * (|timeframe[i+2]-timeframe[i+1]|)
+then
+mark userA as suspicious
+if userA is suspicious then
+delete userA from the dataset
+return new dataset
+
+Even though heuristic algorithm is incomplete and inaccurate, it signicantly helps us
+eschewing outliers and suspicious behaviors that tainted the results of the experiment. The result
+dataset after the application of bot detection shows major improvement on the distribution of
+followers growth during active and inactive period, which is shown in Figure 2.
+The distribution of followers growth during active and inactive periods after applying our bot
+detection process is shown in Figure 6, 7. We observe that despite the occasional spikes in gure
+6, there are not many 
+uctuations in the number of followers during inactive periods, which
+implies stability in the number of followers for most streamers when not streaming. A closer
+look at gure 7 reveals that most streamers experience the majority of increase in popularity
+during the rst couple of hours of the streams; such increase starts to taper o
+ when the streams
+go longer than 20 hours.
+5.3. Categorization of Streamers
+Section 5.1 has shown that streamers' popularity can a
+ect their ability to gain more
+followers/viewers. To identify other factors that can contribute to the success of a channel,
+we categorize the streamers in our dataset by their initial number of followers (the number of
+followers at the start of our observation period) into 4 categories (see Table 1).
+We mostly focus on small and medium streamers in our dataset since they are less susceptible
+to the rich gets richer e
+ect discussed in Section 5.1. In the following Sections, we look at how
+streaming hours and the duration of streams can a
+ect streamers' ability to gain more followers
+during active periods.
+
+5.4. Duration of the Streams
+Figure 8, 9 shows that the duration of a stream can a
+ect the number of followers gained per
+streaming hour. For most users streaming less than 6 hours often brings the most optimal gain
+in followers per hour, while streams that last more than a day usually has less followers growth
+per hour.
+
+5.5. Streaming hours
+Since streamers live and stream in di
+erent time zones, it is dicult to identify a specic optimal
+streaming hours for all users. Instead, we will identify users by their streaming languages and
+look for the best streaming time for each set. After analyzing the average followers gained for
+each 30 minutes timeframe, we noticed some trends. In particular, streams in some languages
+have several peak hours where streamers on average gain simnically more followers, while
+streams in other languages only ave one peak hour. Figure 10 and 11 shows an example for each
+(English and Spanish). We will use UTC timezone for both graphs.
+
+From Figure 10 and 11, we observe that streamers broadcasting in Spanish gain the most
+followers on average between 13:00 - 14:00 UTC time, while streamers broadcasting in English
+has several peak hours: 5:00 - 7:00, 16:00 - 17:00, and 20:00 - 21:00 UTC time.
+
+5.6. Isolating Outliers
+In this Section, we employ a method to identify the best strategy for streamers to attract
+followers, outliers isolation. By identifying streamers who perform better than their peers, we
+hope to understand what they have in common in streaming characteristics.
+First, we only consider streamers with initial number of followers between 0 and 20000. We
+then separate them into 20 "buckets" based on their initial popularity (the number of followers
+recorded at the start of our observation period): streamers with initially 0 - 1,000 followers,
+streamers with initially 1,000 - 2,000 followers, streamers with initially 2,000 - 3,000 followers,
+and so on, for up to streamers with initially 19,000 - 20,000 followers. For each bucket, we
+identify streamers who performed better than their peers by isolating the top 5% who gained
+the most subscribers. From the 5738 streamers being considered, we were able to identify 198
+outliers. Next, we investigate what these outliers have in common and describe the result in the
+next few Sections.
+5.7. Language Distribution
+Figure 12 shows the pie chart of the distribution of streaming languages among the outliers.
+The most popular language used is English, followed by Spanish. This is to be expected since
+the most used languages among Twitch streamers are English and Spanish. We observe from
+the chart that all languages have at least one representative in the outliers. Thus, we conclude
+that languages used by streamers have little or no a
+ect on channels' growth rate.
+5.8. Content Distribution
+Figure 13 shows the pie chart for the types of gaming content streamed by outliers. Surprisingly,
+the most prominent type of content is Just Chatting, a non-gaming related tag, followed by the
+more well known gaming tags such as League of Legends, Grand Theft Auto V, and Minecraft.
+For a further investigation, we divided tags into two categories: gaming and non-gaming. Table
+2 shows the percentages of gaming and non-gaming tags used by the outliers. We observe that
+50% of the streams by the outliers have non-gaming tags, while only 29.22% of the streams in
+our entire dataset have non-gaming tags. This shows that successful streamers are more likely
+to stream a mix of non-gaming and gaming content.
+
+5.9. Length of the Stream
+Figure 14 and 15 show the distribution of the length of the streams for outliers and the entire
+dataset. We observe that most streams from the outliers generally stream much shorter streams
+in comparison to other streamers, with majority of the streams lasting less than 2 hours. For
+the entire population in our dataset, the majority of the streams last up to 6 hours, with many
+streams lasting for days.
+
+5.10. Streaming Frequency
+Figure 16 and 17 show the distribution of streaming frequency for the outliers and for the entire
+dataset. We observe that most outliers stream more than 5 times per week, with many streaming
+between 5 - 8 times per week.
+Overall, we observe from our results that a streaming strategy with multiple short streams
+and mixed content is the most e
+ective.
+From the information above, we identify a common strategy of attracting more
+followers/viewers: 1) stream at least 5 times per week, 2) stream no more than 2 hours in each
+streaming, 3) gaming and non-gaming contents are mixed and evenly distributed as streaming
+contents, 4) stream more than 40 hours per week.
+
+Table 2. Content Distribution
+entire dataset(%) outliers(%)
+gaming 70.78 50.00
+non-gaming 29.22 50.00
+Table 3 shows the statistics comparison between streamers apply that strategy and entire
+dataset. On average, streamers with that strategy gained triple as much followers as entire
+dataset.
+Table 3. Comparison of followers gained
+Entire dataset Streamers t the strategy
+Average Follower Gained 101 342
+Median Follower Gained 29 67
+Average Viewers per Hour 101 101
+
+5.11. Predicting the Growth of a Channel
+Our prediction task involves classifying users with initially 0 - 20k followers into classes based on
+their growth rate during the week. We aim to use users' quantitative streaming parameters to
+identify "good", "average", and "bad" channels (in reference to the channels' ability to attract
+followers).
+In our case, we chose to use a random forest classication model. Random forest classier is
+a commonly used learning algorithm. Its mechanism involves the creation of multiple decision
+trees for training and the use of majority voting for the prediction process. For our study, we
+used the implementation provided in the Python Scikit Learn package.
+First, we classify channels based on their growth rates. We reused the bucket methods
+described in Section 5.4 and divided the channels into 20 buckets based on their initial number
+of followers. Then, if a channel looses followers during the observation process, we consider it a
+bad channel. If a channel gained more followers than the average followers gained by channels
+in its bucket, we consider it a good channel. Otherwise, the channel is marked as average. Table
+4 shows the average followers gained by channels in each bucket.
+Table 4. Average followers gained for channels in each bucket
+Initial followers Average followers Initial followers Average followers
+range gained range gained
+0-1000 33.39 10000-11000 164.40
+1000-2000 61.74 11000-12000 205.43
+2000-3000 77.60 12000-13000 207.54
+3000-4000 76.16 13000-14000 133.64
+4000-5000 92.0 14000-15000 214.60
+5000-6000 117.29 15000-16000 309.73
+6000-7000 143.46 16000-17000 188.78
+7000-8000 139.39 17000-18000 127.06
+8000-9000 159.08 18000-19000 359.18
+9000-10000 155.12 19000-20000 197.55
+Table 5 shows the size of each class. We can see that the classes are unbalanced. To improve on
+the accuracy of our model, we used oversampling to partially x the imbalance of our dataset. We
+used Python Imblearn library's implementation of Synthetic Minority Oversampling Technique
+(SMOTE). We selected 80% of our data (4590 users) as the training set, and held 20% (1148
+users) as the testing set. We apply oversampling to the training set to get a balanced dataset.
+Then, the oversampled training set is fed to our random forest model to learn. This model is
+then applied to the testing set to verify its accuracy.
+Table 5. Classes and class sizes
+Class Number of users
+good 1339
+average 4213
+bad 186
+total 5738
+We give the parameter fed to the model as well as the response variable the model returned. The
+learning parameters are: the initial number of followers and their bucket, the number of streams
+per week, the number of streams with less than 5 hours in length, the number of streams with
+5 - 10 hours in length, the number of streams with more than 10 hours in length, gaming/non-
+gaming content (1 = yes, 0 = no), whether the streamers streamed popular games (1 = yes, 0
+= no). They response variable is a prediction of whether the channel will perform good, bad or
+average (1 = good, 0 = average, -1 = bad).
+Lastly, we report on the accuracy of our trained model. We show the average accuracy,
+precision, recall and F1 measures of the model for 8 di
+erent maximum depths of the trees
+below.
+Table 6. Result of the model
+Max depth Accuracy(%) Precision Recall f1
+2 40.06 0.61 0.40 0.43
+4 54.61 0.63 0.54 0.58
+6 66.63 0.65 0.66 0.65
+8 71.34 0.66 0.71 0.67
+10 71.51 0.66 0.71 0.67
+12 70.73 0.65 0.70 0.66
+14 68.55 0.63 0.68 0.64
+16 66.81 0.62 0.66 0.64
+From Table 6, we can see that the model with maximum trees' depth = 10 performs best
+with accuracy upto 71.55%.
+6. Conclusions
+Over the past few years, streaming services have become an emerging source of media content.
+With the surge in popularity of e-sports and competitive gaming, Twitch has grappled the
+opportunity to become a major player in the gaming market. It hosts thousands of major
+gaming events and millions of independent streamers every year. With a customizable platform,
+it allows streamers and viewers to build their own communities and provide nancial support
+for streamers.
+In this paper, we evaluate the di
+erent factors that could potentially contribute to streamers'
+success on Twitch. Our hope is to shed some light on the complex, intricate ecosystem of Twitch
+communities.
+Our data was collected using Twitch's API. We tracked the weekly activities of 20000 active
+Twitch users over the course of one month and gathered over 3M data points, with more than
+55,00 streams and 50,000 videos, We inspected the features of streamers and their corresponding
+streams and identied which their importance. This includes the growth in followers, the number
+of views per video, the number of views per stream, and the content of the streams.
+Our model provides a tool for both Twitch communities and streamers. For Twitch
+communities, our model provides a guide to evaluate streamers and help identify future streaming
+celebrities. For streamers, we provide a self-evaluation method to help them with improving their
+streaming characteristics.
