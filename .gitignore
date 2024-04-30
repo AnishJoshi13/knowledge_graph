@@ -1,0 +1,8 @@
+*/__pycache__
+*/.DS_Store
+.DS_Store
+.ipynb_checkpoints/
+docs/
+data_input/
+data_output/
+# old_notebooks
